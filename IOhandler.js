@@ -28,24 +28,33 @@ const unzipper = require('unzipper'),
  * @param {string} pathOut 
  * @return {promise}
  */
-const unzip = (pathIn, pathOut) => {
-  return new Promise((resolve,reject) => {
-    fs.createReadStream(pathIn)
-    .pipe(unzipper.Extract({path:pathOut}))
-    .on('error', reject)
-    .on('finish',resolve)
-  });
-}
+// const unzip = (pathIn, pathOut) => {
+//   return new Promise((resolve,reject) => {
+//     fs.createReadStream(pathIn)
+//     .pipe(unzipper.Extract({path:pathOut}))
+//     .on('error', reject)
+//     .on('finish',resolve)
+//   });
+// }
+
+// const unzip = (pathIn, pathOut) => {
+//   (async function() {
+//     try {
+//       const duplex = await fs.createReadStream(pathIn)
+//                     .pipe(unzipper.Extract({path:pathOut}))
+//       return resolve(duplex);
+//     }catch(err){
+//       return await reject(err);
+//     }
+//   })();
+// }
 
 // try it without wrapping with promise (read documentation)
-// const unzip = (pathIn, pathOut) => {
-//   fs.createReadStream(pathIn)
-//     .pipe(unzipper.Parse())
-//     .on('entry', function (entry) {
-//       unzipper.Extract({path:pathOut})
-//     })
-//     .promise();
-// }
+const unzip = (pathIn, pathOut) => {
+  return fs.createReadStream(pathIn)
+    .pipe(unzipper.Extract({path:pathOut}))
+    .promise();
+}
 
 
 /**
